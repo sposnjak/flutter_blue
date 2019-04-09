@@ -724,6 +724,24 @@ int32_t ProtosDeviceStateResponse_State_RawValue(ProtosDeviceStateResponse *mess
  **/
 void SetProtosDeviceStateResponse_State_RawValue(ProtosDeviceStateResponse *message, int32_t value);
 
+#pragma mark - ProtosRequestMtuRequest
+
+typedef GPB_ENUM(ProtosRequestMtuRequest_FieldNumber) {
+  ProtosRequestMtuRequest_FieldNumber_RemoteId = 1,
+  ProtosRequestMtuRequest_FieldNumber_MtuSize = 2,
+  ProtosRequestMtuRequest_FieldNumber_Success = 3,
+};
+
+@interface ProtosRequestMtuRequest : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *remoteId;
+
+@property(nonatomic, readwrite) int32_t mtuSize;
+
+@property(nonatomic, readwrite) BOOL success;
+
+@end
+
 NS_ASSUME_NONNULL_END
 
 CF_EXTERN_C_END

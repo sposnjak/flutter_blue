@@ -231,6 +231,13 @@ class BluetoothDevice {
   /// Indicates whether the Bluetooth Device can send a write without response
   Future<bool> get canSendWriteWithoutResponse =>
       new Future.error(new UnimplementedError());
+
+  Future<Null> requestMtu(int mtuSize) async{
+    var request = protos.RequestMtuRequest.create()
+      ..remoteId = id.toString()
+      ..mtuSize = mtuSize;
+    return await FlutterBlue.instance._channel.invokeMethod('requestMtu', request.writeToBuffer());
+  }
 }
 
 enum BluetoothDeviceType { unknown, classic, le, dual }

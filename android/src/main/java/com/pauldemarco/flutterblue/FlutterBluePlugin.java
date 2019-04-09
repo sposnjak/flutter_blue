@@ -27,6 +27,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.ParcelUuid;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.protobuf.ByteString;
@@ -38,8 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
@@ -478,6 +478,27 @@ public class FlutterBluePlugin implements MethodCallHandler, RequestPermissionsR
                 }
 
                 result.success(null);
+                break;
+            }
+            
+            case "requestMtu":
+            {
+                byte[] data = call.arguments();
+                Protos.RequestMtuRequest request;
+                try {
+                    request = Protos.RequestMtuRequest.newBuilder().mergeFrom(data).build();
+                } catch (InvalidProtocolBufferException e) {
+                    result.error("RuntimeException", e.getMessage(), e);
+                    break;
+                }
+                BluetoothGatt gattServer;
+                try {
+                    gattServer = locateGatt(request.getRemoteId());
+                } catch(Exception e) {
+                    result.error("set_notification_error", e.getMessage(), null);
+                    return;
+                }
+                result.success(gattServer.requestMtu(request.getMtuSize()));
                 break;
             }
 
