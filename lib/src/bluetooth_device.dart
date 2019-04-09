@@ -232,14 +232,27 @@ class BluetoothDevice {
   Future<bool> get canSendWriteWithoutResponse =>
       new Future.error(new UnimplementedError());
 
-  Future<Null> requestMtu(int mtuSize) async{
+  Future requestMtu(int mtuSize) async {
     var request = protos.RequestMtuRequest.create()
-      ..remoteId = id.toString()
-      ..mtuSize = mtuSize;
-    return await FlutterBlue.instance._channel.invokeMethod('requestMtu', request.writeToBuffer());
+        ..remoteId = id.toString()
+        ..mtuSize = mtuSize
+        ..success = false;
+    await FlutterBlue.instance._channel.invokeMethod('requestMtu', request.writeToBuffer());
   }
+
+  Future requestConnectionPriority(ConnectionPriority priority) async {
+    var request = protos.RequestConnectionPriorityRequest.create()
+        ..remoteId = id.toString()
+        ..priority = priority.index
+        ..success = false;
+        
+    await FlutterBlue.instance._channel.invokeMethod('RequestConnectionPriority', request.writeToBuffer());
 }
 
+enum ConnectionPriority { balanced, high, low_power }`
 enum BluetoothDeviceType { unknown, classic, le, dual }
 
 enum BluetoothDeviceState { disconnected, connecting, connected, disconnecting }
+
+
+}

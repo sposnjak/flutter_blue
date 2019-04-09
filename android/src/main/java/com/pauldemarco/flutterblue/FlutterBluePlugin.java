@@ -500,6 +500,27 @@ public class FlutterBluePlugin implements MethodCallHandler, RequestPermissionsR
                     return;
                 }
                 result.success(gattServer.requestMtu(request.getMtuSize()));
+                break;                
+            }
+
+            case "RequestConnectionPriority": 
+            {
+                byte[] data = call.arguments();
+                Protos.RequestConnectionPriorityRequest request;
+                try {
+                    request = Protos.RequestConnectionPriorityRequest.newBuilder().mergeFrom(data).build();
+                } catch (InvalidProtocolBufferException e) {
+                    result.error("RuntimeException", e.getMessage(), e);
+                    break;
+                }
+                BluetoothGatt gattServer;
+                try {
+                    gattServer = locateGatt(request.getRemoteId());
+                } catch(Exception e) {
+                    result.error("set_notification_error", e.getMessage(), null);
+                    return;
+                }                
+                result.success(gattServer.requestConnectionPriority(request.getPriority()));
                 break;
             }
 
