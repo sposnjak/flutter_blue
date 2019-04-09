@@ -245,14 +245,12 @@ class BluetoothDevice {
         ..remoteId = id.toString()
         ..priority = priority.index
         ..success = false;
-        
+
     await FlutterBlue.instance._channel.invokeMethod('RequestConnectionPriority', request.writeToBuffer());
+  }
 }
 
-enum ConnectionPriority { balanced, high, low_power }`
+enum ConnectionPriority { balanced, high, low_power }
 enum BluetoothDeviceType { unknown, classic, le, dual }
 
 enum BluetoothDeviceState { disconnected, connecting, connected, disconnecting }
-
-
-}
