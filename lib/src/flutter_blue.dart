@@ -11,6 +11,8 @@ class FlutterBlue {
       const EventChannel('$NAMESPACE/scanResult');
   final EventChannel _servicesDiscoveredChannel =
       const EventChannel('$NAMESPACE/servicesDiscovered');
+  final EventChannel _mtuChangedChannel =
+    const EventChannel('$NAMESPACE/mtuChanged');
   final EventChannel _characteristicReadChannel =
       const EventChannel('$NAMESPACE/characteristicRead');
   final EventChannel _descriptorReadChannel =
